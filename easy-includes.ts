@@ -1,10 +1,9 @@
-import {Equal} from "../../utils";
-
+type Equal<A, B> = A extends B ? B extends A ? true : false : false
 type Includes<T extends readonly any[], U> =
   T extends [infer First, ...infer Rest]
   ? Equal<First, U> extends true
-     ? true
-     : Includes<Rest, U>
+  ? true
+  : Includes<Rest, U>
   : false
 
 type IncludeTest1 = Includes<[{}], { a: 'A' }>;
