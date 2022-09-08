@@ -1,0 +1,11 @@
+type IsBlank<S extends string> = S extends ' ' ?
+  true :
+  S extends '\n' ?
+  true :
+  S extends '\t' ?
+  true :
+  false
+
+type TrimLeft<S extends string> = IsBlank<First<S>> extends true ? `${TrimLeft<Rest<S>>}` : S; 
+type First<S extends string> = S extends `${infer first}${infer rest}` ? first: '';
+type Rest<S extends string> = S extends `${infer first}${infer rest}` ? rest: '';
