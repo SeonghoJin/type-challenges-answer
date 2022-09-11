@@ -1,0 +1,10 @@
+type FirstChar<T> = T extends `${infer A}${infer B}` ? A: '';
+type RestString<T> = T extends `${infer A}${infer B}` ? B: '';
+type Reverse<S extends string> = S extends '' ? '' : `${Reverse<RestString<S>>}${FirstChar<S>}`;
+type IsEnd<A, B> = A extends '' ? true: B extends '' ? true: false;
+type IsSame<A, B> = A extends B ? true : false;
+
+type StartsWith<T extends string, U extends string> = IsEnd<FirstChar<T>, FirstChar<U>> extends true ? true: 
+IsSame<FirstChar<T>, FirstChar<U>> extends true ? StartsWith<RestString<T>, RestString<U>>: false;
+
+type EndsWith<T extends string, U extends string> = StartsWith<Reverse<T>, Reverse<U>>;
