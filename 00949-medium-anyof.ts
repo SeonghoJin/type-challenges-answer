@@ -1,0 +1,9 @@
+type IsEmptyObject<T> = keyof T extends never ? true: false;
+type IsZero<T> = T extends 0 ? true: false;
+type IsEmptyBlank<T> = T extends '' ? true: false;
+type IsEmptyArray<T> = T extends Array<any> ? T['length'] extends 0 ? true: false: false;
+type IsFalseBoolean<T> = T extends false ? true: false;
+type HasTrue<T> = T extends [infer First, ...infer Rest] ? First extends true ? true: HasTrue<Rest> : false;
+type IsFalse<T> = HasTrue<[IsEmptyObject<T>, IsEmptyBlank<T>, IsZero<T>, IsEmptyArray<T>, IsFalseBoolean<T>]> extends true ? false: true;
+type MapBoolean<T> = T extends [infer First, ...infer Rest] ? [IsFalse<First>, ...MapBoolean<Rest>] : [];
+type AnyOf<T extends readonly any[]> = HasTrue<MapBoolean<T>>
