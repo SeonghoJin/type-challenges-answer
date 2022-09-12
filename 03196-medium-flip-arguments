@@ -1,0 +1,4 @@
+
+type Reverse<T> = T extends [...infer Rest, infer Last] ? [Last, ...Reverse<Rest>] : [];
+
+type FlipArguments<T extends (...args: any[]) => any> =  T extends (...args: infer Arguments) => infer ReturnType ? (...args: Reverse<Arguments>) => ReturnType : never
